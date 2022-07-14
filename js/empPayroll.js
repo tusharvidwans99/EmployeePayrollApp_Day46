@@ -27,50 +27,33 @@ name.addEventListener('input',()=>
         nameError.textContent=e;
     }
 });
+
+
 //validation for date
-var months = new Array();
-    months[0] = "January";
-    months[1] = "February";
-    months[2] = "March";
-    months[3] = "April";
-    months[4] = "May";
-    months[5] = "June";
-    months[6] = "July";
-    months[7] = "August";
-    months[8] = "September";
-    months[9] = "October";
-    months[10] = "November";
-    months[11] = "December";
-const dateError= document.querySelector(".date-error");
-const year= document.querySelector('#year');
-const month= document.querySelector('#month');
-const day=document.querySelector('#day');
+ dateError= document.querySelector(".date-error");
+var year= document.querySelector('#year');
+var month= document.querySelector('#month');
+var day=document.querySelector('#day');
 let currentDate= new Date();
-year.addEventListener('input',()=>
+
+
+
+year.addEventListener('input',checkDate);
+month.addEventListener('input',checkDate);
+day.addEventListener('input',checkDate)
+
+function checkDate(){ 
+    try
     {
-        if(year.value>currentDate.getFullYear())
-        {
-            dateError.textContent="you are entering a future date";
-        }
-        else
-        {
-            month.addEventListener('input',()=>
-            {
-                
-                if(months.findIndex(monthValue=>monthValue==month.value)>currentDate.getMonth()   )
-                {
-                    dateError.textContent="you are entering a future date";
-                }
-                else
-                {
-                    day.addEventListener('input',()=>
-                    {
-                        if(day.value>currentDate.getDate())
-                        {
-                            dateError.textContent="you are entering a future date";
-                        }
-                    });
-                }
-            });
-        }
-    });
+        let dates= document.getElementById("#day")+" "+document.getElementById("#month")+" "+document.getElementById("#year");
+        let date= document.querySelector('#day')+" "+document.querySelector('#month')+" "+document.querySelector('#year');
+        dates=new Date(Date.parse(dates));
+        employeePayrollObject.startDate=dates;
+        dateError.textContent="";
+    }
+    catch(e)
+    {
+        dateError.textContent=e;
+    }
+
+}
