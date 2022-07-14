@@ -115,3 +115,26 @@ const getInputElementValue=(id)=>{
     let value= document.getElementById(id).value;
     return value;
 }
+//reset form
+const resetForm=()=>{
+    setTextValue('#name','');
+    unsetSelectedValues('[name=profile]');
+    unsetSelectedValues('[name=gender]');
+    unsetSelectedValues('[name=department]');
+    setTextValue('#salary','');
+    setTextValue('#notes','');
+    setTextValue('#day',1);
+    setTextValue('#month','January');
+    setTextValue('#year','2020');
+}
+const unsetSelectedValues= (propertyValue)=>{
+    let allItems= document.querySelectorAll(propertyValue);
+    allItems.forEach(items=>{
+        items.checked=false;
+    });
+}
+const setTextValue=(id,value)=>
+{
+    const element= document.querySelector(id);
+    element.textContent=value;
+}
