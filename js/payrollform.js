@@ -1,5 +1,4 @@
 //when content of webpage is loaded, this event gets fired
-
 window.addEventListener('DOMContentLoaded',(event)=>{
     const name= document.querySelector('#name');
     const textError= document.querySelector('.name-error');
@@ -22,19 +21,61 @@ window.addEventListener('DOMContentLoaded',(event)=>{
     const output= document.querySelector('.salary-output');
     output.textContent=salary.value;
     salary.addEventListener('input',function(){
-        output.textContent=salary.value;
+    output.textContent=salary.value;
     });
+
+    dateError= document.querySelector(".date-error");
+    var year= document.querySelector('#year');
+    var month= document.querySelector('#month');
+    var day=document.querySelector('#day');
+
+    year.addEventListener('input',checkDate);
+    month.addEventListener('input',checkDate);
+    day.addEventListener('input',checkDate)
+
+    function checkDate(){ 
+    try
+    {
+        let dates= getInputValueById("#day")+" "+getInputValueById("#month")+" "+getInputValueById("#year");
+        dates=new Date(Date.parse(dates));
+        (new EmployeePayrollData()).startDate=dates;
+        dateError.textContent="";
+    }
+    catch(e)
+    {
+        dateError.textContent=e;
+    }
+
+}
+
 });
 
 const save=()=>{
     try
     {
         let employeePayrollData= createEmployeePayroll();
+        createAndUpdateStorage(employeePayrollData);
     }
     catch(e)
     {
         return;
     }
+}
+function createAndUpdateStorage(employeePayrollData){
+    
+    //employee payroll list is array of objects of employee payroll data
+    let employeePayrollList= JSON.parse(localStorage.getItem("EmployeePayrollList"));
+
+    if(employeePayrollList!=undefined)
+    {
+        employeePayrollList.push(employeePayrollData);
+    }
+    else
+    {
+        employeePayrollList=[employeePayrollData];
+    }
+    alert(employeePayrollList.toString());
+    localStorage.setItem("EmployeePayrollList",JSON.stringify(employeePayrollList));
 }
 
 const createEmployeePayroll=()=>{
@@ -53,7 +94,7 @@ const createEmployeePayroll=()=>{
     employeePayrollData.salary= getInputValueById('#salary');
     employeePayrollData.note=getInputValueById('#notes');
     let date= getInputValueById('#day')+" "+getInputValueById('#month')+" "+getInputValueById('#year');
-    employeePayrollData.date= Date.parse(date);
+    employeePayrollData.startDate= new Date(Date.parse(date));
     alert(employeePayrollData.toString());
     return employeePayrollData;
 }
